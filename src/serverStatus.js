@@ -16,6 +16,7 @@ const safePromise = async (promise) => {
 
 const startNodeChecker = () => {
     setInterval(async () => {
+
         for (const [, nodes] of Object.entries(Status.Nodes)) {
             for (const [node, data] of Object.entries(nodes)) {
 
@@ -25,6 +26,7 @@ const startNodeChecker = () => {
                     const [, pingError] = await safePromise(ping.ping({ host: data.IP, port: 22 }));
 
                     if (pingError) {
+
                         await nodeStatus.set(`${node}.timestamp`, Date.now());
                         await nodeStatus.set(`${node}.status`, false);
                         await nodeStatus.set(`${node}.is_vm_online`, false);
@@ -35,6 +37,7 @@ const startNodeChecker = () => {
                     await nodeStatus.set(`${node}.timestamp`, Date.now());
                     await nodeStatus.set(`${node}.status`, false);
                     await nodeStatus.set(`${node}.is_vm_online`, true);
+
                 } else {
                     await nodeStatus.set(`${node}.timestamp`, Date.now());
                     await nodeStatus.set(`${node}.status`, true);
@@ -42,7 +45,7 @@ const startNodeChecker = () => {
                 }
 
                 const [serverCountRes, serverCountError] = await safePromise(axios({
-                    url: `${Config.Pterodactyl.hosturl}/api/application/nodes/${data.ID}?include=servers`,
+                    url: `${Config.Pterodactyl.hosturl}/api/application/nodes/${data.ID}/allocations?per_page=9000`,
                     method: "GET",
                     headers: {
                         "Authorization": `Bearer ${Config.Pterodactyl.apikey}`,
@@ -51,11 +54,11 @@ const startNodeChecker = () => {
                     },
                 }));
 
-                if (serverCountError || !serverCountRes) {
+                if (serverCountError || !serverCountRes) {                    
                     continue;
                 }
 
-                const serverCount = serverCountRes.data.attributes.relationships.servers.data.length;
+                const serverCount = serverCountRes.data.data.filter(m => m.attributes.assigned).length;
 
                 await nodeServers.set(`${node}`, {
                     servers: serverCount,
@@ -81,7 +84,7 @@ const startNodeChecker = () => {
                 }
             }
         }
-    }, 30 * 1000);
+    }, 5 * 1000);
 }
 
 const parseStatus = async () => {

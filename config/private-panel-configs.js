@@ -16,7 +16,7 @@ const Users = [
     "856176853719187506",   //Jonifirebox
     "1080213687073251461",  //Snowyy
     "778254181303451658",   //Wizq
-    "757296951925538856",   //Barton (TO BE ADDED)
+    "587014661594152980",   //Barton
 ]
 
 module.exports = {

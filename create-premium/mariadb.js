@@ -14,11 +14,11 @@ function createServer(ServerName, UserID){
         docker_image: "quay.io/parkervcp/pterodactyl-images:db_mariadb",
         startup: `{ /usr/sbin/mysqld & } && sleep 5 && mysql -u root`,
         limits: {
-            memory: 0,
+            memory: 2048,
             swap: -1,
-            disk: 0,
+            disk: 10240,
             io: 500,
-            cpu: 0,
+            cpu: 200,
         },
         environment: {},
         feature_limits: {

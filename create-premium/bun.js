@@ -15,11 +15,11 @@ function createServer(ServerName, UserID){
         startup:
             'if [[ -d .git ]] && [[ {{AUTO_UPDATE}} == "1" ]]; then git pull; fi; if [[ ! -z ${BUN_PACKAGES} ]]; then bun install ${BUN_PACKAGES}; fi; if [[ ! -z ${RMBUN_PACKAGES} ]]; then bun remove ${RMBUN_PACKAGES}; fi; if [ -f /home/container/package.json ]; then bun install; fi; bun run {{MAIN_FILE}}',
         limits: {
-            memory: 0,
+            memory: 2048,
             swap: -1,
-            disk: 0,
+            disk: 10240,
             io: 500,
-            cpu: 0,
+            cpu: 200,
         },
         environment: {
             GIT_ADDRESS: null,

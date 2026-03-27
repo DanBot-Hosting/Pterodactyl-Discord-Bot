@@ -20,7 +20,7 @@
   "dependencies": {
     "@sentry/node": "^10.46.0",
     "@sentry/profiling-node": "^10.46.0",
-    "axios": "^1.13.6",
+    "axios": "^1.14.0",
     "chalk": "^4.1.2",
     "discord.js": "^14.25.1",
     "humanize-duration": "^3.33.2",

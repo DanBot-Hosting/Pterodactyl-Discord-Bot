@@ -11,4 +11,4 @@ This bot manages user creation, server creation and general management of Pterod
 
 # License
 
-MIT
+MIT License

@@ -26,7 +26,7 @@
     "humanize-duration": "^3.33.2",
     "moment": "^2.30.1",
     "mysql2": "^3.20.0",
-    "nodemailer": "^8.0.4",
+    "nodemailer": "^8.0.5",
     "path": "^0.12.7",
     "ping-tcp-js": "^2.0.4",
     "validator": "^13.15.35"

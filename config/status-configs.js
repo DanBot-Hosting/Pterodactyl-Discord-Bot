@@ -88,27 +88,27 @@ const Status = {
 
         "Misc": {
             pterodactylPublic: {
-                name: "Pterodactyl",
+                name: "[Pterodactyl](https://panel.danbot.host)",
                 IP: Config.Services.pteropublic,
                 Location: Config.Ping.UK
             },
             billingPanel: {
-                name: "Billing Panel",
+                name: "[Billing Panel](https://billing.danbot.host)",
                 IP: Config.Services.billingpanel,
                 Location: Config.Ping.UK
             },
             mailService: {
-                name: "Mail Service",
+                name: "[Mail Service](https://mail.danbot.host)",
                 IP: Config.Services.mailserver,
                 Location: Config.Ping.UK
             },
             vpsPanel: {
-                name: "VPS Panel",
+                name: "[VPS Panel](https://vps.danbot.cloud)",
                 IP: Config.Services.vpspanel,
                 Location: Config.Ping.UK
             },
             dediPanel: {
-                name: "Dedi Panel",
+                name: "[Dedi Panel](https://manager.danbot.cloud)",
                 IP: Config.Services.dedipanel,
                 Location: Config.Ping.UK
             }

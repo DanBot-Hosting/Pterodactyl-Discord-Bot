@@ -4,22 +4,22 @@ const misc = {
         "137624084572798976", //Dan
         "737603315722092544", //Sarah
         "459025800633647116", //Avix
-        "757296951925538856", //DIBSTER
+        "757296951925538856"  //DIBSTER
     ],
 
     // Staff who can make code drops.
     codeDrops: [
         "137624084572798976", //Dan
         "737603315722092544", //Sarah
-        "757296951925538856",  //DIBSTER
-        "459025800633647116"
+        "757296951925538856", //DIBSTER
+        "459025800633647116"  //Avixity
     ],
 
     //Staff who can run eval and exec.
     botCommands: [
         "137624084572798976", //Dan
-        "757296951925538856",  //DIBSTER
-        "459025800633647116", 
+        "757296951925538856", //DIBSTER
+        "459025800633647116"  //Avixity
     ],
 
     // Channels where the bot reacts with up and down.
@@ -36,11 +36,11 @@ const misc = {
 
     // Channels where users can run the bot commands.
     allowedChannels: [
-        "898041850890440725", // #commands - Community
-        "898041866589700128", // #commands - Donators
-        "898041878447013948", // #commands - Beta Testers
+        "898041850890440725",  // #commands - Community
+        "898041866589700128",  // #commands - Donators
+        "898041878447013948",  // #commands - Beta Testers
         "1217536336181854258", // #commands - Staff
-        "898041906599178240", // #private - Staff
+        "898041906599178240",  // #private - Staff
     ],
 
     // Categories where users can run the bot commands.

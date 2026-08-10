@@ -15,7 +15,7 @@ exports.description = "Create a free server. View this command for usage.";
  * @returns void
  */
 exports.run = async (client, message, args) => {
-    //return message.channel.send("Server creation is disabled. Do not ping staff. See this announcement: https://discord.com/channels/639477525927690240/898050443446464532/1280611305400569856");
+    return message.channel.send("Server creation is disabled. Do not ping staff.");
 
     // Removes all the other arguments, and joins the strings, then limits it to 150 characters.
     const ServerName = message.content.split(" ").slice(3).join(" ").slice(0, 150) + (message.content.split(" ").slice(3).join(" ").length > 150 ? "..." : "") || "Untitled Server (settings -> server name)";

@@ -13,9 +13,7 @@ exports.description = "Add Premium servers to a user.";
  * @returns void
  */
 exports.run = async (client, message, args) => {
-    if (
-        !MiscConfigs.staffPremium.includes(message.author.id)
-    )
+    if (!message.member.roles.cache.find((r) => r.id === Config.DiscordBot.Roles.BotAdmin))
         return;
 
     if (args.length < 4) return message.reply("You didn't provide enough arguements.");

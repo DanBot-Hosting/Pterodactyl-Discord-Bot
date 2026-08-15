@@ -17,6 +17,9 @@
     "url": "https://github.com/DanBotHosting/DanBotHostingStats/issues"
   },
   "homepage": "https://github.com/DanBotHosting/DanBotHostingStats#readme",
+  "allowScripts": {
+    "@sentry/node-cpu-profiler": true
+  },
   "dependencies": {
     "@sentry/node": "^10.69.0",
     "@sentry/profiling-node": "^10.69.0",

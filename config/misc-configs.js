@@ -1,7 +1,7 @@
 const misc = {
     // Users who are authorized to process donations.
     staffPremium: [
-        "137624084572798976", //Dan
+        "229367793479319553", //Dan
         "737603315722092544", //Sarah
         "459025800633647116", //Avix
         "757296951925538856"  //DIBSTER
@@ -9,7 +9,7 @@ const misc = {
 
     // Staff who can make code drops.
     codeDrops: [
-        "137624084572798976", //Dan
+        "229367793479319553", //Dan
         "737603315722092544", //Sarah
         "757296951925538856", //DIBSTER
         "459025800633647116"  //Avixity
@@ -17,7 +17,7 @@ const misc = {
 
     //Staff who can run eval and exec.
     botCommands: [
-        "137624084572798976", //Dan
+        "229367793479319553", //Dan
         "757296951925538856", //DIBSTER
         "459025800633647116"  //Avixity
     ],
@@ -30,7 +30,7 @@ const misc = {
 
     // Staff that can DM the bot.
     dmAllowedUsers: [
-        "137624084572798976", // Dan
+        "229367793479319553", // Dan
         "757296951925538856"  // DIBSTER
     ],
 

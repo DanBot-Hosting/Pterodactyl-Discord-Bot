@@ -21,8 +21,8 @@
     "@sentry/node-cpu-profiler": true
   },
   "dependencies": {
-    "@sentry/node": "^10.69.0",
-    "@sentry/profiling-node": "^10.69.0",
+    "@sentry/node": "^10.70.0",
+    "@sentry/profiling-node": "^10.70.0",
     "axios": "^1.19.0",
     "chalk": "^4.1.2",
     "discord.js": "^14.27.0",

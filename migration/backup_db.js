@@ -52,7 +52,8 @@ async function main() {
             continue;
         }
 
-        const [columns] = await connection.query(`DESCRIBE \`${tableName}\``);
+        const safeTableName = connection.escapeId(tableName);
+        const [columns] = await connection.query("DESCRIBE " + safeTableName);
 
         if (!isKVFormat(columns)) {
             console.log(`SKIP: ${tableName} — already in relational format, no backup needed`);
@@ -62,7 +63,7 @@ async function main() {
 
         console.log(`Backing up: ${tableName} (KV format)...`);
 
-        const [rows] = await connection.query(`SELECT ID, \`json\` FROM \`${tableName}\``);
+        const [rows] = await connection.query("SELECT ID, `json` FROM " + safeTableName);
 
         const parsed = rows.map((row) => {
             let value;

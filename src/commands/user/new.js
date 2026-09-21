@@ -29,6 +29,17 @@ exports.run = async (client, message, args) => {
         return;
     }
 
+    //A verification code has to be emailed part way through, so the mail server is
+    //checked before the user is asked anything.
+    const EmailStatus = await sendMail.verify();
+
+    if (!EmailStatus.Ok) {
+        console.error("[USER CREATION] Email could not be sent: " + EmailStatus.Reason);
+
+        message.reply(`Account creation is temporarily unavailable. ${EmailStatus.Reason}\n\nPlease try again later.`);
+        return;
+    }
+
     let questions = [
         {
             id: "tos",
@@ -178,9 +189,19 @@ exports.run = async (client, message, args) => {
 
         if (question.id === "email") {
             const verificationCode = generateCode().toString();
-            await sendMail(question.value, "Your Verification Code", `<p>Your verification code is: <b>${verificationCode}</b></p>`).catch((Error) => {            
-                    console.error("[USER CREATION] Email could not be sent.");
-                });
+
+            try {
+                await sendMail(question.value, "Your Verification Code", `<p>Your verification code is: <b>${verificationCode}</b></p>`);
+            } catch (Error) {
+                console.error("[USER CREATION] Email could not be sent: " + (Error.userMessage || Error.message));
+
+                //Without the code the user cannot continue, so the request is stopped here.
+                channel.send(`${Error.userMessage || "The email service is currently unavailable."}\nYour verification code could not be sent.\nAccount creation cancelled!`);
+                setTimeout(() => {
+                    channel.delete();
+                }, 5000);
+                return;
+            }
 
             questions.push({
                 id: "verification",

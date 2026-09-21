@@ -135,8 +135,34 @@ exports.run = async (client, message, args) => {
             }
         });
 
+        // Tells the user the mail server is unavailable and closes the channel.
+        async function EmailUnavailable(Reason) {
+            const ErrorEmbed = new Discord.EmbedBuilder();
+            ErrorEmbed.setColor("Red");
+            ErrorEmbed.setDescription(`${Reason}\n\nA verification code cannot be sent right now, so this request has been cancelled. Please try again later.`);
+            ErrorEmbed.setTimestamp();
+            ErrorEmbed.setFooter({text: "This channel will be deleted in 10 seconds."});
+
+            await msg.edit({content: "Account linking is temporarily unavailable.", embeds: [ErrorEmbed]});
+
+            setTimeout(async () => {
+                await channel.delete("The email service is unavailable.");
+            }, 10 * 1000);
+        }
+
         // Now we process the email verification.
         async function EmailVerification(Email) {
+
+            //Checked before the account lookup so an outage is reported the same way
+            //whether or not the email belongs to an existing account.
+            const EmailStatus = await sendEmail.verify();
+
+            if (!EmailStatus.Ok) {
+                console.error("[ACCOUNT LINKING] Email could not be sent: " + EmailStatus.Reason);
+
+                await EmailUnavailable(EmailStatus.Reason);
+                return;
+            }
 
             let Users = null;
 
@@ -172,13 +198,18 @@ exports.run = async (client, message, args) => {
             if (!User) {
                 message.guild.channels.cache.get(MiscConfigs.accountLinked).send(`User ${message.author.username} (${message.author.id}) tried to link their account but the email was not found in the database.`);
             } else {
-                await sendEmail(
-                    Email, 
-                    "DanBot Hosting - Account Linking Verification",
-                    `Hello, ${message.author.username} (ID: ${message.author.id}) just tried to link their Discord account with this console email address. Here is a verification code that is needed to link: ${Code}`
-                ).catch((Error) => {            
-                    console.error("[ACCOUNT LINKING] Email could not be sent.");
-                });
+                try {
+                    await sendEmail(
+                        Email,
+                        "DanBot Hosting - Account Linking Verification",
+                        `Hello, ${message.author.username} (ID: ${message.author.id}) just tried to link their Discord account with this console email address. Here is a verification code that is needed to link: ${Code}`
+                    );
+                } catch (Error) {
+                    console.error("[ACCOUNT LINKING] Email could not be sent: " + (Error.userMessage || Error.message));
+
+                    await EmailUnavailable(Error.userMessage || "The email service is currently unavailable.");
+                    return;
+                }
             }
 
             const VerificationEmbed = new Discord.EmbedBuilder();

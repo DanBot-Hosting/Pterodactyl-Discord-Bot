@@ -64,17 +64,6 @@ exports.run = async (client, message, args) => {
             data: data,
         })
             .then(async (Response) => {
-                const Embed = new Discord.EmbedBuilder();
-                Embed.setColor("Blue");
-                Embed.setTitle("Password Reset Success");
-                Embed.setDescription(
-                    "The console account that is linked with the discord account has now been reset.\n" +
-                    "Please check direct messages for the password. If you didn't recieve a message, you do not have direct messages enabled for this server.\n\n" +
-                    "An email has also been sent to your email connected to the console account."
-                );
-
-                message.reply({embeds: [Embed]});
-
                 //Sends the user a direct message containing their new password.
                 client.users.cache
                     .get(message.author.id)
@@ -87,18 +76,40 @@ exports.run = async (client, message, args) => {
                     subject: "DanBot Hosting - Password Reset From Discord Bot",
                     html:
                         "Hello " + data.first_name + ",\n\n" +
-                        "You have requested a password reset through the Discord bot.\n\n" + 
+                        "You have requested a password reset through the Discord bot.\n\n" +
                         "Panel Account Email:" + data.email + "\n" +
                         "Panel Account Username:" + data.username + "\n" +
-                        "Panel Account Password:" + data.password + "\n" + 
+                        "Panel Account Password:" + data.password + "\n" +
                         "Please keep this information safe and secure.\n\n" +
 
                         "If you did not request this password reset, please contact support immediately through Discord."
                 };
 
-                await sendMail(data.email, "DanBot Hosting - Password Reset From Discord Bot", EmailMessage.html).catch((Error) => {            
-                    console.log("[PASSWORD RESET] Email could not be sent.");
-                });
+                //The password has already been changed, so a failed email is reported
+                //rather than treated as a failed reset.
+                let EmailNotice = "An email has also been sent to your email connected to the console account.";
+
+                try {
+                    await sendMail(data.email, "DanBot Hosting - Password Reset From Discord Bot", EmailMessage.html);
+                } catch (Error) {
+                    console.log("[PASSWORD RESET] Email could not be sent: " + (Error.userMessage || Error.message));
+
+                    EmailNotice =
+                        "**The confirmation email could not be sent.** " +
+                        (Error.userMessage || "The email service is currently unavailable.") + "\n" +
+                        "Your password has still been reset, so please make sure you save the password from your direct messages.";
+                }
+
+                const Embed = new Discord.EmbedBuilder();
+                Embed.setColor("Blue");
+                Embed.setTitle("Password Reset Success");
+                Embed.setDescription(
+                    "The console account that is linked with the discord account has now been reset.\n" +
+                    "Please check direct messages for the password. If you didn't recieve a message, you do not have direct messages enabled for this server.\n\n" +
+                    EmailNotice
+                );
+
+                message.reply({embeds: [Embed]});
             }).catch((err) => {
                 console.error(err.message);
             });

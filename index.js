@@ -28,6 +28,21 @@ Free Hosting forever!                                            /____/
         //   nodeProfilingIntegration(),
         // ],
         tracesSampleRate: 1.0, //  Capture 100% of the transactions.
+        // Keep the Sentry v10 data collection defaults (sendDefaultPii off). v11 collects everything unless set.
+        dataCollection: {
+            userInfo: false,
+            cookies: false,
+            httpHeaders: {
+                request: { deny: ["forwarded", "-ip", "remote-", "via", "-user"] },
+                response: { deny: ["forwarded", "-ip", "remote-", "via", "-user"] },
+            },
+            httpBodies: [],
+            urlQueryParams: { deny: ["forwarded", "-ip", "remote-", "via", "-user"] },
+            genAI: { inputs: false, outputs: false },
+            databaseQueryData: false,
+            graphQL: { document: false, variables: false },
+            frameContextLines: 7,
+        },
     });
 
     module.exports.Sentry = Sentry;

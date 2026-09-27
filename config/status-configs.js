@@ -70,7 +70,7 @@ const Status = {
 
         "VPS Hosting": {
             us1: {
-                name: "United States - New Jersy 1",
+                name: "United States - New Jersey 1",
                 IP: Config.Servers.NJ1,
                 Location: Config.Ping.UK
             }

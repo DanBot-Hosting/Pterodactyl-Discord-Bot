@@ -35,7 +35,7 @@ exports.run = async (client, message, args) => {
                     { name: "__**Console ID**__", value: (userAccount.console_id ?? userAccount.consoleID ?? "").toString(), inline: false },
                     { name: "__**Date (YYYY/MM/DD)**__", value: (userAccount.link_date ?? userAccount.linkDate ?? "").toString(), inline: false },
                     { name: "__**Time**__", value: (userAccount.link_time ?? userAccount.linkTime ?? "").toString(), inline: false },
-                    { name: "__**Relative Time**__", value: "<t:" + Math.round(userAccount.epoch_time ?? userAccount.epochTime ?? 0) + ":f> (" + "<t:" + Math.round(userAccount.epoch_time ?? userAccount.epochTime ?? 0) + ":R>)", inline: false },
+                    { name: "__**Linked At**__", value: "<t:" + Math.round(userAccount.epoch_time ?? userAccount.epochTime ?? 0) + ":f> (" + "<t:" + Math.round(userAccount.epoch_time ?? userAccount.epochTime ?? 0) + ":R>)", inline: false },
                 )
                 .setTimestamp()
                 .setFooter({ text: client.user.displayName, iconURL: client.user.avatarURL() });

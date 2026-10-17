@@ -28,7 +28,7 @@ exports.run = async (client, message, args) => {
             { name: `**__Username__**`, value: user.username || '' },
             { name: `**__Linked Date (YYYY-MM-DD)__**`, value: user.link_date ?? '' },
             { name: `**__Linked Time__**`, value: user.link_time ?? '' },
-            { name: `**__Relative Time__**`, value: "<t:" + Math.round(user.epoch_time ?? 0) + ":f> (" + "<t:" + Math.round(user.epoch_time ?? 0) + ":R>)" },
+            { name: `**__Linked At__**`, value: "<t:" + Math.round(user.epoch_time ?? 0) + ":f> (" + "<t:" + Math.round(user.epoch_time ?? 0) + ":R>)" },
         )
         .setTimestamp()
         .setFooter({text: client.user.username, iconUrl: client.user.avatarURL()});

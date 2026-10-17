@@ -129,7 +129,7 @@ exports.run = async (client, message, args) => {
 
             // A single message was collected.
             if (MessageCollected.size == 1) {
-                const Email = MessageCollected.first().content;
+                const Email = MessageCollected.first().content.trim();
 
                 await EmailVerification(Email);
             }
@@ -189,14 +189,27 @@ exports.run = async (client, message, args) => {
             }
             
             const User = Users.data.find((usr) =>
-                usr.attributes ? usr.attributes.email === Email : false,
+                usr.attributes ? usr.attributes.email.toLowerCase().trim() === Email.toLowerCase() : false,
             );
 
             const Code = generateCode(10);
             
             //This will not send the verification code, that's it.
             if (!User) {
-                message.guild.channels.cache.get(MiscConfigs.accountLinked).send(`User ${message.author.username} (${message.author.id}) tried to link their account but the email was not found in the database.`);
+                const FailedTime = Math.floor(Date.now() / 1000);
+
+                const FailedLogs = new Discord.EmbedBuilder();
+                FailedLogs.setColor("Red");
+                FailedLogs.setTitle("Account Link Failed:");
+                FailedLogs.setDescription("The email provided was not found in the panel, so no verification code was sent.");
+                FailedLogs.addFields(
+                    { name: "**Discord Account:**", value: `${message.author.toString()} - (${message.author.id})`, inline: false },
+                    { name: "**Email Provided:**", value: "`" + Email.replace(/`/g, "").slice(0, 1000) + "`", inline: false },
+                    { name: "**Failed At:**", value: `<t:${FailedTime}:F> (<t:${FailedTime}:R>)`, inline: false }
+                );
+                FailedLogs.setTimestamp();
+
+                message.guild.channels.cache.get(MiscConfigs.accountLinked).send({content: `<@${message.author.id}> tried to link their account but the email was not found.`, embeds: [FailedLogs]});
             } else {
                 try {
                     await sendEmail(

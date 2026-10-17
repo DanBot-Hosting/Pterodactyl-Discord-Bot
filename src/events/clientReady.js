@@ -1,5 +1,7 @@
 const Discord = require("discord.js");
 const Chalk = require("chalk");
+const fs = require("fs");
+const path = require("path");
 const { exec } = require("child_process");
 const Util = require('util');
 const execPromise = Util.promisify(exec);
@@ -24,6 +26,18 @@ module.exports = async (client) => {
     };
 
     checkNicks();
+
+    // Register slash commands to the main guild.
+    try {
+        const slashCommands = fs.readdirSync(path.join(__dirname, "../slashCommands"))
+            .filter((f) => f.endsWith(".js"))
+            .map((f) => require(`../slashCommands/${f}`).data.toJSON());
+
+        await guild.commands.set(slashCommands);
+        console.log(Chalk.magenta("[DISCORD] ") + Chalk.green(`Registered ${slashCommands.length} slash command(s).`));
+    } catch (Error) {
+        console.error(Chalk.red("[DISCORD] ") + Chalk.redBright("Failed to register slash commands: " + Error.message));
+    }
 
     console.log(
         Chalk.magenta("[DISCORD] ") + Chalk.green(client.user.username + " has logged in!"),

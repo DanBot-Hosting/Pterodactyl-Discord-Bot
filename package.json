@@ -28,7 +28,7 @@
     "discord.js": "^14.27.0",
     "humanize-duration": "^3.35.0",
     "moment": "^2.31.0",
-    "mysql2": "^3.24.5",
+    "mysql2": "^3.24.6",
     "nodemailer": "^10.1.0",
     "path": "^0.12.7",
     "ping-tcp-js": "^2.0.4",

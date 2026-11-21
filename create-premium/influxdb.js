@@ -12,7 +12,7 @@ function createServer(ServerName, UserID){
         nest: 12,
         egg: 93,
         docker_image: "ghcr.io/parkervcp/yolks:debian",
-        startup: `./influxd  --http-bind-address 0.0.0.0:{{SERVER_PORT}}`,
+        startup: "mkdir -p /home/container/tmp && export TMPDIR=/home/container/tmp TMP=/home/container/tmp TEMP=/home/container/tmp && exec ./influxd --http-bind-address 0.0.0.0:{{SERVER_PORT}}",
         limits: {
             memory: 2048,
             swap: -1,
